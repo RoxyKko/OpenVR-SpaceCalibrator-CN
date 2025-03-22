@@ -374,7 +374,7 @@ void RunLoop() {
 
 				if (textInfo != nullptr) {
 					textBuf[0] = 0;
-					int len = WideCharToMultiByte(CP_ACP, 0, (LPCWCH)textInfo->TextA.Data, textInfo->TextA.Size, textBuf, sizeof(textBuf), nullptr, nullptr);
+					int len = WideCharToMultiByte(CP_UTF8, 0, (LPCWCH)textInfo->TextA.Data, textInfo->TextA.Size, textBuf, sizeof(textBuf), nullptr, nullptr);
 					textBuf[std::min(static_cast<size_t>(len), sizeof(textBuf) - 1)] = 0;
 
 					uint32_t unFlags = 0; // EKeyboardFlags 
@@ -412,9 +412,9 @@ void RunLoop() {
 
 					int id = ImGui::GetActiveID();
 					auto textInfo = ImGui::GetInputTextState(id);
-					int bufSize = MultiByteToWideChar(CP_ACP, 0, textBuf, -1, nullptr, 0);
+					int bufSize = MultiByteToWideChar(CP_UTF8, 0, textBuf, -1, nullptr, 0);
 					textInfo->TextA.resize(bufSize);
-					MultiByteToWideChar(CP_ACP, 0, textBuf, -1, (LPWSTR)textInfo->TextA.Data, bufSize);
+					MultiByteToWideChar(CP_UTF8, 0, textBuf, -1, (LPWSTR)textInfo->TextA.Data, bufSize);
 					textInfo->CurLenA = bufSize;
 					textInfo->CurLenA = WideCharToMultiByte(CP_UTF8, 0, (LPCWCH)textInfo->TextA.Data, textInfo->TextA.Size, nullptr, 0, nullptr, nullptr);
 					
