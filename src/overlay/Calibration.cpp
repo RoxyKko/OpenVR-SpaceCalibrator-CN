@@ -458,7 +458,7 @@ void CalibrationTick(double time)
 		}
 		else {
 			ctx.wantedUpdateInterval = 0.5;
-			ctx.Log("Waiting for devices...");
+			ctx.Log("Waiting for devices...\n");
 			return;
 		}
 	}
