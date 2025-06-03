@@ -162,17 +162,19 @@ namespace {
 	{
 		vr::DriverPose_t reference, target;
 		reference.poseIsValid = false;
+		reference.result = vr::ETrackingResult::TrackingResult_Uninitialized;
 		target.poseIsValid = false;
+		target.result = vr::ETrackingResult::TrackingResult_Uninitialized;
 
 		reference = ctx.devicePoses[ctx.referenceID];
 		target = ctx.devicePoses[ctx.targetID];
 
 		bool ok = true;
-		if (!reference.poseIsValid)
+		if (!reference.poseIsValid && reference.result != vr::ETrackingResult::TrackingResult_Running_OK)
 		{
 			CalCtx.Log("Reference device is not tracking\n"); ok = false;
 		}
-		if (!target.poseIsValid)
+		if (!target.poseIsValid && target.result != vr::ETrackingResult::TrackingResult_Running_OK)
 		{
 			CalCtx.Log("Target device is not tracking\n"); ok = false;
 		}

@@ -333,7 +333,7 @@ namespace protocol
 
 		bool GetPose(int index, vr::DriverPose_t& pose, LARGE_INTEGER *pSampleTime = NULL) {
 			ReadNewPoses([this](AugmentedPose const& pose) {
-				if (pose.pose.poseIsValid) {
+				if (pose.pose.poseIsValid && pose.pose.result == vr::ETrackingResult::TrackingResult_Running_OK) {
 					this->lastPose[pose.deviceId] = pose;
 				}
 			});
