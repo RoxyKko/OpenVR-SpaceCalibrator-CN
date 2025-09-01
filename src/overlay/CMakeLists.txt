@@ -88,7 +88,7 @@ target_compile_definitions(SpaceCalibratorOverlay
 
 # Object files are too big with spacecal sooooo
 if (MSVC)
-    target_compile_options(SpaceCalibratorOverlay PRIVATE /bigobj)
+    target_compile_options(SpaceCalibratorOverlay PRIVATE /bigobj /utf-8)
 else ()
     target_compile_options(SpaceCalibratorOverlay PRIVATE -Wa,-mbig-obj)
 endif ()
