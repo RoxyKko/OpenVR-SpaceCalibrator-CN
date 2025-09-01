@@ -151,7 +151,29 @@ void CreateGLFWWindow()
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 	io.IniFilename = nullptr;
-	io.Fonts->AddFontFromMemoryCompressedTTF(DroidSans_compressed_data, DroidSans_compressed_size, 24.0f);
+
+	// 尝试加载支持中文的字体
+
+	ImFont* font = nullptr;
+
+	// 尝试使用思源黑体
+	font = io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/simhei.ttf", 24.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
+
+	// 如果黑体不可用，尝试宋体
+	if (!font) {
+		font = io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/simsun.ttc", 24.0f, nullptr, io.Fonts->GetGlyphRangesChineseFull());
+	}
+
+	// 如果都不可用，回退到默认字体
+	if (!font) {
+		// 或者使用系统默认的UI字体
+		font = io.Fonts->AddFontDefault();
+	}
+
+	if (!font) {
+		// 使用嵌入的Droid Sans字体作为回退,中文会导致乱码
+		font = io.Fonts->AddFontFromMemoryCompressedTTF(DroidSans_compressed_data, DroidSans_compressed_size, 24.0f);
+	}
 
 	ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
 	ImGui_ImplOpenGL3_Init("#version 330");

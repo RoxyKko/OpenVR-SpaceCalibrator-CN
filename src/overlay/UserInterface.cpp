@@ -74,7 +74,7 @@ void BuildMainWindow(bool runningInOverlay_)
 
 void ShowVersionLine() {
 	ImGui::SetNextWindowPos(ImVec2(10.0f, ImGui::GetWindowHeight() - ImGui::GetFrameHeightWithSpacing()));
-	if (!ImGui::BeginChild("bottom line", ImVec2(ImGui::GetWindowWidth() - 20.0f, ImGui::GetFrameHeightWithSpacing() * 2), ImGuiChildFlags_None)) {
+	if (!ImGui::BeginChild("底线", ImVec2(ImGui::GetWindowWidth() - 20.0f, ImGui::GetFrameHeightWithSpacing() * 2), ImGuiChildFlags_None)) {
 		ImGui::EndChild();
 		return;
 	}
@@ -82,7 +82,7 @@ void ShowVersionLine() {
 	if (runningInOverlay)
 	{
 		ImGui::SameLine();
-		ImGui::Text("- close VR overlay to use mouse");
+		ImGui::Text("- 关闭 VR 覆盖以使用鼠标");
 	}
 	ImGui::EndChild();
 }
@@ -94,7 +94,7 @@ void BuildContinuousCalDisplay() {
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImGui::GetWindowSize());
 	ImGui::SetNextWindowBgAlpha(1);
-	if (!ImGui::Begin("Continuous Calibration", nullptr,
+	if (!ImGui::Begin("连续校准", nullptr,
 		bareWindowFlags & ~ImGuiWindowFlags_NoTitleBar
 	)) {
 		ImGui::End();
@@ -167,7 +167,7 @@ void CCal_DrawSettings() {
 	ImVec2 panel_size { ImGui::GetWindowContentRegionMax().x - ImGui::GetWindowContentRegionMin().x, 0 };
 
 	ImGui::BeginGroupPanel("Tip", panel_size);
-	ImGui::Text("Hover over settings to learn more about them!");
+	ImGui::Text("将鼠标悬停在设置选项上以了解更多相关信息!");
 	ImGui::EndGroupPanel();
 
 
@@ -179,28 +179,28 @@ void CCal_DrawSettings() {
 
 		ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
 		ImGui::TextWrapped(
-			"SpaceCalibrator uses up to three different speeds at which it drags the calibration back into "
-			"position when drift occurs. These settings control how far off the calibration should be before going back to low speed (for "
-			"Decel) or going to higher speeds (for Slow and Fast)."
+			"SpaceCalibrator 当漂移发生时使用多达三种不同的速度将校准拖回到位置。"
+			"这里的设置项决定了：校准点要偏离多远才会切换回低速模式（Decel档），"
+			"或者什么时候该切换到更快的速度（Slow档和Fast档）"
 		);
 		ImGui::PopStyleColor();
 
 		// Calibration Speed
 		{
 			ImGui::BeginGroupPanel("Calibration speed", panel_size);
-		
+
 			auto speed = CalCtx.calibrationSpeed;
 
 			ImGui::Columns(3, nullptr, false);
-			if (ImGui::RadioButton(" Fast          ", speed == CalibrationContext::FAST)) {
+			if (ImGui::RadioButton(" 快速          ", speed == CalibrationContext::FAST)) {
 				CalCtx.calibrationSpeed = CalibrationContext::FAST;
 			}
 			ImGui::NextColumn();
-			if (ImGui::RadioButton(" Slow          ", speed == CalibrationContext::SLOW)) {
+			if (ImGui::RadioButton(" 慢速          ", speed == CalibrationContext::SLOW)) {
 				CalCtx.calibrationSpeed = CalibrationContext::SLOW;
 			}
 			ImGui::NextColumn();
-			if (ImGui::RadioButton(" Very Slow     ", speed == CalibrationContext::VERY_SLOW)) {
+			if (ImGui::RadioButton(" 非常慢     ", speed == CalibrationContext::VERY_SLOW)) {
 				CalCtx.calibrationSpeed = CalibrationContext::VERY_SLOW;
 			}
 			ImGui::Columns(1);
@@ -211,14 +211,14 @@ void CCal_DrawSettings() {
 		if (ImGui::BeginTable("SpeedThresholds", 3, 0)) {
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(1);
-			ImGui::Text("Translation (mm)");
+			ImGui::Text("平移量 (mm)");
 			ImGui::TableSetColumnIndex(2);
-			ImGui::Text("Rotation (degrees)");
+			ImGui::Text("旋转量 (度)");
 
 
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("Decel");
+			ImGui::Text("低速");
 			ImGui::TableSetColumnIndex(1);
 			ScaledDragFloat("##TransDecel", CalCtx.alignmentSpeedParams.thr_trans_tiny, 1000.0, 0, 20.0);
 			ImGui::TableSetColumnIndex(2);
@@ -226,7 +226,7 @@ void CCal_DrawSettings() {
 
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("Slow");
+			ImGui::Text("慢速");
 			ImGui::TableSetColumnIndex(1);
 			ScaledDragFloat("##TransSlow", CalCtx.alignmentSpeedParams.thr_trans_small, 1000.0,
 				CalCtx.alignmentSpeedParams.thr_trans_tiny * 1000.0, 20.0);
@@ -236,7 +236,7 @@ void CCal_DrawSettings() {
 
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("Fast");
+			ImGui::Text("快速");
 			ImGui::TableSetColumnIndex(1);
 			ScaledDragFloat("##TransFast", CalCtx.alignmentSpeedParams.thr_trans_large, 1000.0,
 				CalCtx.alignmentSpeedParams.thr_trans_small * 1000.0, 50.0);
@@ -259,10 +259,10 @@ void CCal_DrawSettings() {
 		ScaledDragFloat("Decel", CalCtx.alignmentSpeedParams.align_speed_tiny, 1.0, 0, 2.0, 0);
 		ScaledDragFloat("Slow", CalCtx.alignmentSpeedParams.align_speed_small, 1.0, 0, 2.0, 0);
 		ScaledDragFloat("Fast", CalCtx.alignmentSpeedParams.align_speed_large, 1.0, 0, 2.0, 0);
-		
+
 		ImGui::EndGroupPanel();
 	}
-	
+
 
 	// Section: Continuous Calibration settings
 	{
@@ -270,43 +270,43 @@ void CCal_DrawSettings() {
 		{
 			// @TODO: Reduce code duplication (tooltips)
 			// Recalibration threshold
-			ImGui::Text("Recalibration threshold");
+			ImGui::Text("重新校准阈值");
 			ImGui::SameLine();
 			ImGui::PushID("recalibration_threshold");
 			ImGui::SliderFloat("##recalibration_threshold_slider", &CalCtx.continuousCalibrationThreshold, 1.01f, 10.0f, "%1.1f", 0);
 			if (ImGui::IsItemHovered(0)) {
-				ImGui::SetTooltip("Controls how good the calibration must be before realigning the trackers.\n"
-					"Higher values cause calibration to happen less often, and may be useful for systems with lots of tracking drift.");
+				ImGui::SetTooltip("控制需要达到多好的校准精度才会重新对齐追踪器。\n"
+					"数值越高，校准触发频率越低，对于追踪漂移严重的系统可能有用。");
 			}
 			ImGui::PopID();
 
 			// Recalibration threshold
-			ImGui::Text("Max relative error threshold");
+			ImGui::Text("最大相对误差阈值");
 			ImGui::SameLine();
 			ImGui::PushID("max_relative_error_threshold");
 			ImGui::SliderFloat("##max_relative_error_threshold_slider", &CalCtx.maxRelativeErrorThreshold, 0.01f, 1.0f, "%1.1f", 0);
 			if (ImGui::IsItemHovered(0)) {
-				ImGui::SetTooltip("Controls the maximum acceptable relative error. If the error from the relative calibration is too poor, the calibration will be discarded.");
+				ImGui::SetTooltip("控制可接受的最大相对误差。如果相对校准的误差太差，本次校准将被丢弃。");
 			}
 			ImGui::PopID();
 
 			// Jitter threshold
-			ImGui::Text("Jitter threshold");
+			ImGui::Text("抖动阈值");
 			ImGui::SameLine();
 			ImGui::PushID("jtter_threshold");
 			ImGui::SliderFloat("##jitter_threshold_slider", &CalCtx.jitterThreshold, 0.1f, 10.0f, "%1.1f", 0);
 			if (ImGui::IsItemHovered(0)) {
-				ImGui::SetTooltip("Controls how much jitter will be allowed for calibration.\n"
-					"Higher values allow worse tracking to calibrate, but may result in poorer tracking.");
+				ImGui::SetTooltip("控制需要达到多好的校准精度才会重新对齐追踪器。\n"
+					"数值越高，校准触发频率越低，对于追踪漂移严重的系统可能有用。");
 			}
 			ImGui::PopID();
 
 			ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-			ImGui::TextWrapped("Controls how often SpaceCalibrator synchronises playspaces.");
+			ImGui::TextWrapped("控制 SpaceCalibrator 同步游玩区域的频率。");
 			ImGui::PopStyleColor();
 			if (ImGui::IsItemHovered(0)) {
-				ImGui::SetTooltip("Controls how good the calibration must be before realigning the trackers.\n"
-					"Higher values cause calibration to happen less often, and may be useful for system with lots of tracking drift.");
+				ImGui::SetTooltip("控制需要达到多好的校准精度才会重新对齐追踪器。\n"
+					"数值越高，校准触发频率越低，对于追踪漂移严重的系统可能有用。");
 			}
 		}
 
@@ -334,7 +334,7 @@ void CCal_DrawSettings() {
 
 	ImGui::NewLine();
 	ImGui::Indent();
-	if (ImGui::Button("Reset settings")) {
+	if (ImGui::Button("重置设置")) {
 		CalCtx.ResetConfig();
 	}
 	ImGui::Unindent();
@@ -350,6 +350,7 @@ void CCal_DrawSettings() {
 		ImGui::TextDisabled("ArcticFox");
 		ImGui::TextDisabled("hekky");
 		ImGui::TextDisabled("pimaker");
+		ImGui::TextDisabled("cn翻译:RoxyAkko");
 
 		ImGui::EndGroupPanel();
 	}
@@ -411,14 +412,14 @@ void CCal_BasicInfo() {
 		const char* status;
 		if (CalCtx.referenceID < 0) {
 			ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, 0xFF000080);
-			status = "NOT FOUND";
+			status = "未找到";
 		} else if (!CalCtx.ReferencePoseIsValidSimple()) {
 			ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, 0xFFFF0080);
-			status = "NOT TRACKING";
+			status = "未追踪";
 		} else {
-			status = "OK";
+			status = "正常";
 		}
-		ImGui::Text("Status: %s", status);
+		ImGui::Text("状态: %s", status);
 		ImGui::EndGroup();
 
 		ImGui::TableSetColumnIndex(1);
@@ -430,16 +431,16 @@ void CCal_BasicInfo() {
 		);
 		if (CalCtx.targetID < 0) {
 			ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, 0xFF000080);
-			status = "NOT FOUND";
+			status = "未找到";
 		}
 		else if (!CalCtx.TargetPoseIsValidSimple()) {
 			ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, 0xFFFF0080);
-			status = "NOT TRACKING";
+			status = "未追踪";
 		}
 		else {
-			status = "OK";
+			status = "正常";
 		}
-		ImGui::Text("Status: %s", status);
+		ImGui::Text("状态: %s", status);
 		ImGui::EndGroup();
 
 		ImGui::EndTable();
@@ -450,18 +451,18 @@ void CCal_BasicInfo() {
 	if (ImGui::BeginTable("##CCal_Cancel", Metrics::enableLogs ? 3 : 2, 0, ImVec2(width * scale, ImGui::GetTextLineHeight() * 2))) {
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
-		if (ImGui::Button("Cancel Continuous Calibration", ImVec2(-FLT_MIN, 0.0f))) {
+		if (ImGui::Button("取消持续校准", ImVec2(-FLT_MIN, 0.0f))) {
 			EndContinuousCalibration();
 		}
 
 		ImGui::TableSetColumnIndex(1);
-		if (ImGui::Button("Debug: Force break calibration", ImVec2(-FLT_MIN, 0.0f))) {
+		if (ImGui::Button("调试：强制打断校准", ImVec2(-FLT_MIN, 0.0f))) {
 			DebugApplyRandomOffset();
 		}
 
 		if (Metrics::enableLogs) {
 			ImGui::TableSetColumnIndex(2);
-			if (ImGui::Button("Debug: Mark logs", ImVec2(-FLT_MIN, 0.0f))) {
+			if (ImGui::Button("调试：标记日志", ImVec2(-FLT_MIN, 0.0f))) {
 				Metrics::WriteLogAnnotation("MARK LOGS");
 			}
 		}
@@ -505,7 +506,7 @@ void BuildMenu(bool runningInOverlay)
 	{
 		if (CalCtx.validProfile && !CalCtx.enabled)
 		{
-			ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1), "Reference (%s) HMD not detected, profile disabled", GetPrettyTrackingSystemName(CalCtx.referenceTrackingSystem));
+			ImGui::TextColored(ImVec4(0.8f, 0.2f, 0.2f, 1), "参考设备 (%s) 的 HMD 未检测到，配置文件已禁用", GetPrettyTrackingSystemName(CalCtx.referenceTrackingSystem));
 			ImGui::Text("");
 		}
 
@@ -516,27 +517,27 @@ void BuildMenu(bool runningInOverlay)
 			scale = 1.0f / 4.0f;
 		}
 
-		if (ImGui::Button("Start Calibration", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
+		if (ImGui::Button("开始校准", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
 		{
 			ImGui::OpenPopup("Calibration Progress");
 			StartCalibration();
 		}
 
 		ImGui::SameLine();
-		if (ImGui::Button("Continuous Calibration", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2))) {
+		if (ImGui::Button("持续校准", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2))) {
 			StartContinuousCalibration();
 		}
 
 		if (CalCtx.validProfile)
 		{
 			ImGui::SameLine();
-			if (ImGui::Button("Edit Calibration", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
+			if (ImGui::Button("编辑配置", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
 			{
 				CalCtx.state = CalibrationState::Editing;
 			}
 
 			ImGui::SameLine();
-			if (ImGui::Button("Clear Calibration", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
+			if (ImGui::Button("清除配置", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
 			{
 				CalCtx.Clear();
 				SaveProfile(CalCtx);
@@ -552,7 +553,7 @@ void BuildMenu(bool runningInOverlay)
 		}
 
 		ImGui::Text("");
-		if (ImGui::Button("Copy Chaperone Bounds to profile", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
+		if (ImGui::Button("将安全区域边界复制到配置", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
 		{
 			LoadChaperoneBounds();
 			SaveProfile(CalCtx);
@@ -561,12 +562,12 @@ void BuildMenu(bool runningInOverlay)
 		if (CalCtx.chaperone.valid)
 		{
 			ImGui::SameLine();
-			if (ImGui::Button("Paste Chaperone Bounds", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
+			if (ImGui::Button("粘贴安全区域边界", ImVec2(width * scale, ImGui::GetTextLineHeight() * 2)))
 			{
 				ApplyChaperoneBounds();
 			}
 
-			if (ImGui::Checkbox(" Paste Chaperone Bounds automatically when geometry resets", &CalCtx.chaperone.autoApply))
+			if (ImGui::Checkbox("在几何体重置时自动粘贴安全区域边界", &CalCtx.chaperone.autoApply))
 			{
 				SaveProfile(CalCtx);
 			}
@@ -576,18 +577,18 @@ void BuildMenu(bool runningInOverlay)
 		auto speed = CalCtx.calibrationSpeed;
 
 		ImGui::Columns(4, nullptr, false);
-		ImGui::Text("Calibration Speed");
+		ImGui::Text("校准速度");
 
 		ImGui::NextColumn();
-		if (ImGui::RadioButton(" Fast          ", speed == CalibrationContext::FAST))
+		if (ImGui::RadioButton(" 快速          ", speed == CalibrationContext::FAST))
 			CalCtx.calibrationSpeed = CalibrationContext::FAST;
 
 		ImGui::NextColumn();
-		if (ImGui::RadioButton(" Slow          ", speed == CalibrationContext::SLOW))
+		if (ImGui::RadioButton(" 慢速          ", speed == CalibrationContext::SLOW))
 			CalCtx.calibrationSpeed = CalibrationContext::SLOW;
 
 		ImGui::NextColumn();
-		if (ImGui::RadioButton(" Very Slow     ", speed == CalibrationContext::VERY_SLOW))
+		if (ImGui::RadioButton(" 非常慢        ", speed == CalibrationContext::VERY_SLOW))
 			CalCtx.calibrationSpeed = CalibrationContext::VERY_SLOW;
 
 		ImGui::Columns(1);
@@ -596,7 +597,7 @@ void BuildMenu(bool runningInOverlay)
 	{
 		BuildProfileEditor();
 
-		if (ImGui::Button("Save Profile", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeight() * 2)))
+		if (ImGui::Button("保存配置", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeight() * 2)))
 		{
 			SaveProfile(CalCtx);
 			CalCtx.state = CalibrationState::None;
@@ -604,7 +605,7 @@ void BuildMenu(bool runningInOverlay)
 	}
 	else
 	{
-		ImGui::Button("Calibration in progress...", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeight() * 2));
+		ImGui::Button("校准正在进行中...", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeight() * 2));
 	}
 
 	ImGui::SetNextWindowPos(ImVec2(20.0f, 20.0f), ImGuiCond_Always);
@@ -633,7 +634,7 @@ void BuildMenu(bool runningInOverlay)
 		if (CalCtx.state == CalibrationState::None)
 		{
 			ImGui::Text("");
-			if (ImGui::Button("Close", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeight() * 2)))
+			if (ImGui::Button("关闭", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeight() * 2)))
 				ImGui::CloseCurrentPopup();
 		}
 
@@ -645,16 +646,16 @@ void BuildSystemSelection(const VRState &state)
 {
 	if (state.trackingSystems.empty())
 	{
-		ImGui::Text("No tracked devices are present");
+		ImGui::Text("不存在追踪设备");
 		return;
 	}
 
 	ImGuiStyle &style = ImGui::GetStyle();
 	float paneWidth = ImGui::GetWindowContentRegionWidth() / 2 - style.FramePadding.x;
 
-	TextWithWidth("ReferenceSystemLabel", "Reference Space", paneWidth);
+	TextWithWidth("参考系统标签", "参考设备", paneWidth);
 	ImGui::SameLine();
-	TextWithWidth("TargetSystemLabel", "Target Space", paneWidth);
+	TextWithWidth("目标系统标签", "目标设备", paneWidth);
 
 	int currentReferenceSystem = -1;
 	int currentTargetSystem = -1;
@@ -690,7 +691,7 @@ void BuildSystemSelection(const VRState &state)
 	}
 
 	ImGui::PushItemWidth(paneWidth);
-	ImGui::Combo("##ReferenceTrackingSystem", &currentReferenceSystem, &referenceSystemsUi[0], (int)referenceSystemsUi.size());
+	ImGui::Combo("##参考追踪系统", &currentReferenceSystem, &referenceSystemsUi[0], (int)referenceSystemsUi.size());
 
 	if (currentReferenceSystem != -1 && currentReferenceSystem < (int) referenceSystems.size())
 	{
@@ -725,7 +726,7 @@ void BuildSystemSelection(const VRState &state)
 	}
 
 	ImGui::SameLine();
-	ImGui::Combo("##TargetTrackingSystem", &currentTargetSystem, &targetSystemsUi[0], (int)targetSystemsUi.size());
+	ImGui::Combo("##目标追踪系统", &currentTargetSystem, &targetSystemsUi[0], (int)targetSystemsUi.size());
 
 	if (currentTargetSystem != -1 && currentTargetSystem < targetSystems.size())
 	{
@@ -775,7 +776,7 @@ std::string LabelString(const StandbyDevice& device) {
 void BuildDeviceSelection(const VRState &state, int &initialSelected, const std::string &system, StandbyDevice &standbyDevice)
 {
 	int selected = initialSelected;
-	ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1), "Devices from: %s", GetPrettyTrackingSystemName(system));
+	ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1), "设备来自: %s", GetPrettyTrackingSystemName(system));
 
 	if (selected != -1)
 	{
@@ -820,7 +821,7 @@ void BuildDeviceSelection(const VRState &state, int &initialSelected, const std:
 			{
 				if (device.trackingSystem != system)
 					continue;
-				
+
 				selected = device.id;
 				break;
 			}
@@ -884,17 +885,17 @@ void BuildDeviceSelections(const VRState &state)
 	ImGuiStyle &style = ImGui::GetStyle();
 	ImVec2 paneSize(ImGui::GetWindowContentRegionWidth() / 2 - style.FramePadding.x, ImGui::GetTextLineHeightWithSpacing() * 5 + style.ItemSpacing.y * 4);
 
-	ImGui::BeginChild("left device pane", paneSize, ImGuiChildFlags_Borders);
+	ImGui::BeginChild("左侧设备面板", paneSize, ImGuiChildFlags_Borders);
 	BuildDeviceSelection(state, CalCtx.referenceID, CalCtx.referenceTrackingSystem, CalCtx.referenceStandby);
 	ImGui::EndChild();
 
 	ImGui::SameLine();
 
-	ImGui::BeginChild("right device pane", paneSize, ImGuiChildFlags_Borders);
+	ImGui::BeginChild("右侧设备面板", paneSize, ImGuiChildFlags_Borders);
 	BuildDeviceSelection(state, CalCtx.targetID, CalCtx.targetTrackingSystem, CalCtx.targetStandby);
 	ImGui::EndChild();
 
-	if (ImGui::Button("Identify selected devices (blinks LED or vibrates)", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeightWithSpacing() + 4.0f)))
+	if (ImGui::Button("识别选定的设备（LED 闪烁或振动）", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetTextLineHeightWithSpacing() + 4.0f)))
 	{
 		for (unsigned i = 0; i < 100; ++i)
 		{
@@ -932,11 +933,11 @@ void BuildProfileEditor()
 	float width = ImGui::GetWindowContentRegionWidth() / 3.0f - style.FramePadding.x;
 	float widthF = width - style.FramePadding.x;
 
-	TextWithWidth("YawLabel", "Yaw", width);
+	TextWithWidth("Yaw偏航标签", "Yaw偏航", width);
 	ImGui::SameLine();
-	TextWithWidth("PitchLabel", "Pitch", width);
+	TextWithWidth("Pitch俯仰标签", "Pitch俯仰", width);
 	ImGui::SameLine();
-	TextWithWidth("RollLabel", "Roll", width);
+	TextWithWidth("Roll翻滚标签", "Roll翻滚", width);
 
 	ImGui::PushItemWidth(widthF);
 	ImGui::InputDouble("##Yaw", &CalCtx.calibratedRotation(1), 0.1, 1.0, "%.8f");
@@ -945,11 +946,11 @@ void BuildProfileEditor()
 	ImGui::SameLine();
 	ImGui::InputDouble("##Roll", &CalCtx.calibratedRotation(0), 0.1, 1.0, "%.8f");
 
-	TextWithWidth("XLabel", "X", width);
+	TextWithWidth("X轴", "X", width);
 	ImGui::SameLine();
-	TextWithWidth("YLabel", "Y", width);
+	TextWithWidth("Y轴", "Y", width);
 	ImGui::SameLine();
-	TextWithWidth("ZLabel", "Z", width);
+	TextWithWidth("Z轴", "Z", width);
 
 	ImGui::InputDouble("##X", &CalCtx.calibratedTranslation(0), 1.0, 10.0, "%.8f");
 	ImGui::SameLine();
@@ -957,7 +958,7 @@ void BuildProfileEditor()
 	ImGui::SameLine();
 	ImGui::InputDouble("##Z", &CalCtx.calibratedTranslation(2), 1.0, 10.0, "%.8f");
 
-	TextWithWidth("ScaleLabel", "Scale", width);
+	TextWithWidth("Scale缩放标签", "Scale缩放", width);
 
 	ImGui::InputDouble("##Scale", &CalCtx.calibratedScale, 0.0001, 0.01, "%.8f");
 	ImGui::PopItemWidth();
